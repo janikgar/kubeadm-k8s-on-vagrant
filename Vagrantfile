@@ -12,19 +12,29 @@ EOF
 
 Vagrant.configure("2") do |config|
   config.vm.define "master" do |this|
+    this.vm.provider :hyperv do |hv|
+      hv.memory = 2048
+      hv.cpus = 2
+    end
     this.vm.box = "centos/7"
     this.vm.network "private_network"
+    this.vm.hostname = "master"
     this.vm.provision "file", source: "./provision.sh", destination: "/tmp/"
-    this.vm.provision "shell", inline: $provisioner
+    this.vm.provision "shell", inline: "bash /tmp/provision.sh master"
+    this.vm.provision "file", source: "./routes.sh", destination: "/tmp/"
+    this.vm.provision "shell", inline: "bash /tmp/routes.sh master"
   end
   config.vm.define "worker" do |this|
+    this.vm.provider :hyperv do |hv|
+      hv.memory = 2048
+      hv.cpus = 2
+    end
     this.vm.box = "centos/7"
     this.vm.network "private_network"
+    this.vm.hostname = "worker"
     this.vm.provision "file", source: "./provision.sh", destination: "/tmp/"
-    this.vm.provision "shell", inline: $provisioner
+    this.vm.provision "shell", inline: "bash /tmp/provision.sh worker"
+    this.vm.provision "file", source: "./routes.sh", destination: "/tmp/"
+    this.vm.provision "shell", inline: "bash /tmp/routes.sh worker"
   end
-
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
 end
