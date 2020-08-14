@@ -2,7 +2,7 @@
 
 set -e
 
-SUBNET=$(ip r | grep -v default | grep eth0 | cut -f1 -d' ')
+SUBNET=$(ip r | grep -v default | grep eth0 | awk '{print $1}')
 
 MASTER_PORTS=("6443" "22" "8080" "2379:2380" "10250:10252")
 WORKER_PORTS=("10250" "30000:32767")

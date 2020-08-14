@@ -15,7 +15,13 @@ Vagrant.configure("2") do |config|
     this.vm.provider :hyperv do |hv|
       hv.memory = 2048
       hv.cpus = 2
+      hv.linked_clone = true
     end
+    # this.vm.provider :hyperv do |hv|
+    #   hv.memory = 2048
+    #   hv.cpus = 2
+    #   hv.linked_clone = true
+    # end
     this.vm.box = "centos/7"
     this.vm.network "private_network"
     this.vm.hostname = "master"
@@ -28,7 +34,13 @@ Vagrant.configure("2") do |config|
     this.vm.provider :hyperv do |hv|
       hv.memory = 2048
       hv.cpus = 2
+      hv.linked_clone = true
     end
+    # this.vm.provider :virtualbox do |hv|
+    #   hv.memory = 2048
+    #   hv.cpus = 2
+    #   hv.linked_clone = true
+    # end
     this.vm.box = "centos/7"
     this.vm.network "private_network"
     this.vm.hostname = "worker"
